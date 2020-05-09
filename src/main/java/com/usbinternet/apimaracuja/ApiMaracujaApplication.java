@@ -10,5 +10,4 @@ public class ApiMaracujaApplication {
 		SpringApplication.run(ApiMaracujaApplication.class, args);
 
 	}
-
 }
