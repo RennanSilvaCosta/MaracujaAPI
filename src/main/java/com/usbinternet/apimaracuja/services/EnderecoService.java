@@ -26,4 +26,9 @@ public class EnderecoService {
 		return er.save(e);
 	}
 
+	public Endereco update(Endereco e) {
+		buscarPorId(e.getId());
+		return er.save(e);
+	}
+
 }
