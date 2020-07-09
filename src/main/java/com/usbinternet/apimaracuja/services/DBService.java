@@ -1,26 +1,33 @@
 package com.usbinternet.apimaracuja.services;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.usbinternet.apimaracuja.domain.Endereco;
+import com.usbinternet.apimaracuja.domain.Usuario;
 import com.usbinternet.apimaracuja.repositories.EnderecoRepository;
+import com.usbinternet.apimaracuja.repositories.UsuarioRepository;
 
 @Service
 public class DBService {
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private UsuarioRepository userRepository;
 
 	public void instantiateDevDataBase() {
 
-		Endereco e = new Endereco(null, "04929080", "Avenida Professor Mário Mazagão", "Alto da Riviera");
-		Endereco e1 = new Endereco(null, "04929290", "Ricardina Viêira Coelho", "Alto da Riviera");
-		Endereco e2 = new Endereco(null, "04929210", "Luís Teixeira de Oliveira", "Alto da Riviera");
+		Usuario user = new Usuario(null, "EmpresaX", "Empresax@gmail.com");
+		Endereco e4 = new Endereco(null, "00000000", "Abadie Faria Rosa", "Alto da Riviera", user);
 
-		enderecoRepository.save(e);
-		enderecoRepository.save(e1);
-		enderecoRepository.save(e2);
+		user.getEnderecos().addAll(Arrays.asList(e4));
+
+		userRepository.save(user);
+
+		enderecoRepository.save(e4);
 
 	}
 
