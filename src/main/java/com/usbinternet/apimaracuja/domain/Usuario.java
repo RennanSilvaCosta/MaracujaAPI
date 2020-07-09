@@ -1,40 +1,38 @@
 package com.usbinternet.apimaracuja.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Endereco implements Serializable {
+public class Usuario implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String cep;
-	private String logradouro;
-	private String bairro;
+	private String nome;
+	private String email;
 
-	@JsonIgnore
-	@ManyToOne
-	private Usuario usuario;
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	private List<Endereco> enderecos = new ArrayList<>();
 
-	public Endereco() {
+	public Usuario() {
 	}
 
-	public Endereco(Integer id, String cep, String logradouro, String bairro, Usuario usuario) {
+	public Usuario(Integer id, String nome, String email) {
 		super();
 		this.id = id;
-		this.cep = cep;
-		this.logradouro = logradouro;
-		this.bairro = bairro;
-		this.usuario = usuario;
+		this.nome = nome;
+		this.email = email;
 	}
 
 	public Integer getId() {
@@ -45,36 +43,28 @@ public class Endereco implements Serializable {
 		this.id = id;
 	}
 
-	public String getCep() {
-		return cep;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setCep(String cep) {
-		this.cep = cep;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
-	public String getLogradouro() {
-		return logradouro;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setLogradouro(String logradouro) {
-		this.logradouro = logradouro;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public String getBairro() {
-		return bairro;
+	public List<Endereco> getEnderecos() {
+		return enderecos;
 	}
 
-	public String setBairro(String bairro) {
-		return bairro;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
 	}
 
 	@Override
@@ -93,7 +83,7 @@ public class Endereco implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Endereco other = (Endereco) obj;
+		Usuario other = (Usuario) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
