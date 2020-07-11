@@ -24,7 +24,6 @@ public class UsuarioService {
 			throw new ObjectNotFoundException("Objeto não encontrado: " + id + ", Tipo: " + Usuario.class.getName());
 		}
 		return e.orElse(null);
-
 	}
 
 	public Usuario insert(Usuario user) {
@@ -42,7 +41,7 @@ public class UsuarioService {
 		try {
 			er.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Não ofi possível excluir este usuario");
+			throw new DataIntegrityException("Não foi possível excluir este usuario");
 		}
 
 	}

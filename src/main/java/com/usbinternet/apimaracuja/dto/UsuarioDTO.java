@@ -10,6 +10,7 @@ public class UsuarioDTO implements Serializable {
 	private Integer id;
 	private String nome;
 	private String email;
+	private String senha;
 
 	public UsuarioDTO() {
 	}
@@ -18,6 +19,15 @@ public class UsuarioDTO implements Serializable {
 		id = user.getId();
 		nome = user.getNome();
 		email = user.getEmail();
+		senha = user.getSenha();
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public Integer getId() {
