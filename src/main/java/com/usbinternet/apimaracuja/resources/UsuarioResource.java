@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -26,9 +27,15 @@ public class UsuarioResource {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Usuario> find(@PathVariable Integer id) {
-		Usuario e = us.buscarPorId(id);
+		Usuario e = us.findById(id);
 		return ResponseEntity.ok().body(e);
 	}
+
+	/*@RequestMapping(value = "/{email}", method = RequestMethod.GET)
+	public ResponseEntity<Usuario> find(@RequestParam(value = "value") String email) {
+		Usuario e = us.findByEmail(email);
+		return ResponseEntity.ok().body(e);
+	}*/
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody Usuario e) {
