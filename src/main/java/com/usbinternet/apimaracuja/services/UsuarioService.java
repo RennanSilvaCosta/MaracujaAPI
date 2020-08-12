@@ -48,7 +48,7 @@ public class UsuarioService {
 	}
 
 	public Usuario insert(Usuario user) {
-		emailService.sendRegistrationConfirmationEmail(user);
+		emailService.sendRegistrationConfirmationHtmlEmail(user);
 		return er.save(user);
 	}
 
