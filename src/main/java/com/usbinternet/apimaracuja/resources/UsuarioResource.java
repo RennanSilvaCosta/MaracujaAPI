@@ -1,21 +1,24 @@
 package com.usbinternet.apimaracuja.resources;
 
-import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.usbinternet.apimaracuja.domain.Empresa;
 import com.usbinternet.apimaracuja.domain.Usuario;
+import com.usbinternet.apimaracuja.domain.enums.PerfilUsuario;
+import com.usbinternet.apimaracuja.dto.NewUsuarioDTO;
 import com.usbinternet.apimaracuja.dto.UsuarioDTO;
+import com.usbinternet.apimaracuja.services.EmpresaService;
 import com.usbinternet.apimaracuja.services.UsuarioService;
 
 @RestController
@@ -25,23 +28,29 @@ public class UsuarioResource {
 	@Autowired
 	private UsuarioService us;
 
+	@Autowired
+	private EmpresaService em;
+
+	@Autowired
+	private BCryptPasswordEncoder pe;
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Usuario> find(@PathVariable Integer id) {
 		Usuario e = us.findById(id);
 		return ResponseEntity.ok().body(e);
 	}
 
-	/*@RequestMapping(value = "/{email}", method = RequestMethod.GET)
-	public ResponseEntity<Usuario> find(@RequestParam(value = "value") String email) {
-		Usuario e = us.findByEmail(email);
-		return ResponseEntity.ok().body(e);
-	}*/
-
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Usuario e) {
-		e = us.insert(e);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(e.getId()).toUri();
-		return ResponseEntity.created(uri).build();
+	public ResponseEntity<UsuarioDTO> insert(@RequestBody NewUsuarioDTO newUsuarioDTO) {
+		Empresa empresa = new Empresa(null, newUsuarioDTO.getNomeEmpresa());
+		Usuario user = new Usuario(null, newUsuarioDTO.getNomeUsuario(), newUsuarioDTO.getEmail(),
+				pe.encode(newUsuarioDTO.getSenha()), empresa);
+		user.addPerfil(PerfilUsuario.ADMIN);
+		empresa.getUsuarios().add(user);
+		em.insert(empresa);
+		us.insert(user);
+		UsuarioDTO userDTO = new UsuarioDTO(user);
+		return ResponseEntity.ok().body(userDTO);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)

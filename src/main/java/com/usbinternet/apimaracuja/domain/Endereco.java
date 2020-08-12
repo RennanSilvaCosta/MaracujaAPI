@@ -20,21 +20,21 @@ public class Endereco implements Serializable {
 	private String cep;
 	private String logradouro;
 	private String bairro;
-
+	
 	@JsonIgnore
 	@ManyToOne
-	private Usuario usuario;
+	private Empresa empresa;
 
 	public Endereco() {
 	}
 
-	public Endereco(Integer id, String cep, String logradouro, String bairro, Usuario usuario) {
+	public Endereco(Integer id, String cep, String logradouro, String bairro, Empresa empresa) {
 		super();
 		this.id = id;
 		this.cep = cep;
 		this.logradouro = logradouro;
 		this.bairro = bairro;
-		this.usuario = usuario;
+		this.empresa = empresa;
 	}
 
 	public Integer getId() {
@@ -69,12 +69,12 @@ public class Endereco implements Serializable {
 		return bairro;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public Empresa getEmpresa() {
+		return empresa;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
 	}
 
 	@Override

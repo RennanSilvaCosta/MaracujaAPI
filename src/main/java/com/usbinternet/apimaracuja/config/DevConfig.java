@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.usbinternet.apimaracuja.services.DBService;
+import com.usbinternet.apimaracuja.services.EmailService;
+import com.usbinternet.apimaracuja.services.SmtpEmailService;
 
 @Configuration
 @Profile("dev")
@@ -25,6 +27,11 @@ public class DevConfig {
 		}
 		dbService.instantiateDevDataBase();
 		return true;
+	}
+
+	@Bean
+	public EmailService emailService() {
+		return new SmtpEmailService();
 	}
 
 }
