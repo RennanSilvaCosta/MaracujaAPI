@@ -1,13 +1,10 @@
 package com.usbinternet.apimaracuja.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -15,14 +12,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.usbinternet.apimaracuja.domain.enums.PerfilUsuario;
 
 @Entity
 public class Usuario implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -38,18 +34,20 @@ public class Usuario implements Serializable {
 	@CollectionTable(name = "PERFIS")
 	private Set<Integer> perfis = new HashSet<>();
 
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-	private List<Endereco> enderecos = new ArrayList<>();
+	@JsonIgnore
+	@ManyToOne
+	private Empresa empresa;
 
 	public Usuario() {
 	}
 
-	public Usuario(Integer id, String nome, String email, String senha) {
+	public Usuario(Integer id, String nome, String email, String senha, Empresa empresa) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.senha = senha;
+		this.empresa = empresa;
 	}
 
 	public Integer getId() {
@@ -76,14 +74,6 @@ public class Usuario implements Serializable {
 		this.email = email;
 	}
 
-	public List<Endereco> getEnderecos() {
-		return enderecos;
-	}
-
-	public void setEnderecos(List<Endereco> enderecos) {
-		this.enderecos = enderecos;
-	}
-
 	public String getSenha() {
 		return senha;
 	}
@@ -98,6 +88,14 @@ public class Usuario implements Serializable {
 
 	public void addPerfil(PerfilUsuario perfil) {
 		perfis.add(perfil.getCod());
+	}
+
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
 	}
 
 	@Override
@@ -124,5 +122,9 @@ public class Usuario implements Serializable {
 			return false;
 		return true;
 	}
-
+	
+	@Override
+	public String toString() {
+		return this.id  + " " + this.nome + " " + this.email + " " + this.empresa;
+	}
 }

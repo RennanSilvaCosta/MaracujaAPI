@@ -21,6 +21,9 @@ public class UsuarioService {
 
 	@Autowired
 	private UsuarioRepository er;
+	
+	@Autowired
+	private EmailService emailService;
 
 	public Usuario findById(Integer id) {
 		Optional<Usuario> e = er.findById(id);
@@ -45,7 +48,7 @@ public class UsuarioService {
 	}
 
 	public Usuario insert(Usuario user) {
-		user.setId(null);
+		emailService.sendRegistrationConfirmationEmail(user);
 		return er.save(user);
 	}
 
