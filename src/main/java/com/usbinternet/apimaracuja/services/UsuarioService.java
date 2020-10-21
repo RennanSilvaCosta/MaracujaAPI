@@ -34,7 +34,6 @@ public class UsuarioService {
 	}
 
 	public Usuario findByEmail(String email) {
-
 		UserSS userss = UsuarioService.authenticated();
 		if (userss == null || !userss.hasRole(PerfilUsuario.ADMIN) && !email.equals(userss.getUsername())) {
 			throw new AuthorizationException("Acesso negado");
@@ -42,7 +41,7 @@ public class UsuarioService {
 		Usuario user = er.findByEmail(email);
 		if (user == null) {
 			throw new ObjectNotFoundException(
-					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + Usuario.class.getName());
+					"Objeto não encontrado! id: " + userss.getId() + ", Tipo: " + Usuario.class.getName());
 		}
 		return user;
 	}

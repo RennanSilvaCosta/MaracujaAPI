@@ -8,9 +8,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Endereco implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -65,8 +68,8 @@ public class Endereco implements Serializable {
 		return bairro;
 	}
 
-	public String setBairro(String bairro) {
-		return bairro;
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
 	}
 
 	public Empresa getEmpresa() {

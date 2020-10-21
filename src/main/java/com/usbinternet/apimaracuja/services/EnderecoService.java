@@ -24,7 +24,6 @@ public class EnderecoService {
 			throw new ObjectNotFoundException("Objeto não encontrado: " + id + ", Tipo: " + Endereco.class.getName());
 		}
 		return e.orElse(null);
-
 	}
 
 	public Endereco insert(Endereco e) {
@@ -44,11 +43,14 @@ public class EnderecoService {
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não foi possivel deletar o CEP informado");
 		}
-
 	}
 
-	public List<Endereco> findAll() {
-		return er.findAll();
+	public Endereco findByCep(String cep, Integer idEmpresa) {
+		return er.findCepByIdEmpresa(cep, idEmpresa);
+	}
+
+	public List<Endereco> findAll(Integer idEmpresa) {
+		return er.getAll(idEmpresa);
 	}
 
 }

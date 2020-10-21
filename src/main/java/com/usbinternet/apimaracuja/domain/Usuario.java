@@ -6,25 +6,33 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.usbinternet.apimaracuja.domain.enums.PerfilUsuario;
 
 @Entity
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
 	private String nome;
+
+	@Column(unique = true)
 	private String email;
 
 	@JsonIgnore
@@ -34,8 +42,8 @@ public class Usuario implements Serializable {
 	@CollectionTable(name = "PERFIS")
 	private Set<Integer> perfis = new HashSet<>();
 
-	@JsonIgnore
 	@ManyToOne
+	@JoinColumn(name="empresa_id")
 	private Empresa empresa;
 
 	public Usuario() {
@@ -90,6 +98,7 @@ public class Usuario implements Serializable {
 		perfis.add(perfil.getCod());
 	}
 
+	
 	public Empresa getEmpresa() {
 		return empresa;
 	}
@@ -122,9 +131,9 @@ public class Usuario implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
-		return this.id  + " " + this.nome + " " + this.email + " " + this.empresa;
+		return this.id + " " + this.nome + " " + this.email + " " + this.empresa;
 	}
 }

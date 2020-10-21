@@ -49,8 +49,6 @@ public class UserSS implements UserDetails {
 		return email;
 	}
 	
-	
-
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;

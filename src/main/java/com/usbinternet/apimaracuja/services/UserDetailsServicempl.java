@@ -18,12 +18,10 @@ public class UserDetailsServicempl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
 		Usuario user = ur.findByEmail(email);
 		if (user == null) {
 			throw new UsernameNotFoundException(email);
 		}
-
 		return new UserSS(user.getId(), user.getEmail(), user.getSenha(), user.getPerfil());
 	}
 
