@@ -41,7 +41,7 @@ public class UsuarioResource {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<UsuarioDTO> insert(@RequestBody NewUsuarioDTO newUsuarioDTO) {
+	public ResponseEntity<?> insert(@RequestBody NewUsuarioDTO newUsuarioDTO) {
 		Empresa empresa = new Empresa(null, newUsuarioDTO.getNomeEmpresa());
 		Usuario user = new Usuario(null, newUsuarioDTO.getNomeUsuario(), newUsuarioDTO.getEmail(),
 				pe.encode(newUsuarioDTO.getSenha()), empresa);
@@ -49,8 +49,7 @@ public class UsuarioResource {
 		empresa.getUsuarios().add(user);
 		em.insert(empresa);
 		us.insert(user);
-		UsuarioDTO userDTO = new UsuarioDTO(user);
-		return ResponseEntity.ok().body(userDTO);
+		return ResponseEntity.noContent().build();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)

@@ -29,21 +29,40 @@ public class DBService {
 	public void instantiateDevDataBase() {
 
 		Empresa empresa1 = new Empresa(null, "Maracujá");
+		Empresa empresa2 = new Empresa(null, "Spark");
 
-		Usuario user1 = new Usuario(null, "Rennan Costa", "rennan71@hotmail.com", pe.encode("123"), empresa1);
+		Usuario user1 = new Usuario(null, "Rennan Costa", "rennansilvacosta@hotmail.com", pe.encode("rammstein-1"),
+				empresa1);
 
-		user1.addPerfil(PerfilUsuario.ADMIN);
+		Usuario user2 = new Usuario(null, "Ester Duarte", "duartelopes@hotmail.com", pe.encode("rammstein-1"), empresa2);
 		
-		Endereco e1 = new Endereco(null, "00000000", "Abadie Faria Rosa", "Alto da Riviera", empresa1);
-		Endereco e2 = new Endereco(null, "00000000", "bla bla bla", "Alto da Riviera", empresa1);
-
-		empresa1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		user1.addPerfil(PerfilUsuario.ADMIN);
+		user2.addPerfil(PerfilUsuario.ADMIN);
+		
+		Endereco e1 = new Endereco(null, "04929-080", "Avenida Professor Mário Mazagão", "Alto da Riviera", empresa1);
+		Endereco e2 = new Endereco(null, "00000-000", "Paulo Simões da Costa", "Alto da Riviera", empresa1);
+		Endereco e3 = new Endereco(null, "00000-000", "Paulo Simões da Costa", "Alto da Riviera", empresa1);
+		Endereco e4 = new Endereco(null, "00000-000", "Paulo Simões da Costa", "Alto da Riviera", empresa1);
+		
+		
+		Endereco e5 = new Endereco(null, "04929-140", "Paulo Simões da Costa", "Alto da Riviera", empresa2);
+		
+		empresa1.getEnderecos().addAll(Arrays.asList(e1));
+		empresa1.getEnderecos().addAll(Arrays.asList(e2));
+		empresa1.getEnderecos().addAll(Arrays.asList(e3));
+		empresa1.getEnderecos().addAll(Arrays.asList(e4));	
+		
+		empresa2.getEnderecos().addAll(Arrays.asList(e5));
 
 		empresaRepository.save(empresa1);
+		empresaRepository.save(empresa2);
 		userRepository.save(user1);
+		userRepository.save(user2);
 		enderecoRepository.save(e1);
 		enderecoRepository.save(e2);
-
+		enderecoRepository.save(e3);
+		enderecoRepository.save(e4);
+		enderecoRepository.save(e5);
 	}
 
 }

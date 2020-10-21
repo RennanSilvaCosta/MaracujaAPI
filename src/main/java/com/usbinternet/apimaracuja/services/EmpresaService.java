@@ -1,6 +1,5 @@
 package com.usbinternet.apimaracuja.services;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +15,10 @@ import com.usbinternet.apimaracuja.services.exceptions.ObjectNotFoundException;
 public class EmpresaService {
 
 	@Autowired
-	private EmpresaRepository er;
-
+	private EmpresaRepository empresaRepository;
+	
 	public Empresa findById(Integer id) {
-		Optional<Empresa> e = er.findById(id);
+		Optional<Empresa> e = empresaRepository.findById(id);
 		if (e == null) {
 			throw new ObjectNotFoundException("Objeto não encontrado: " + id + ", Tipo: " + Empresa.class.getName());
 		}
@@ -28,25 +27,21 @@ public class EmpresaService {
 
 	public Empresa insert(Empresa e) {
 		e.setId(null);
-		return er.save(e);
+		return empresaRepository.save(e);
 	}
 
 	public Empresa update(Empresa e) {
 		findById(e.getId());
-		return er.save(e);
+		return empresaRepository.save(e);
 	}
 
 	public void delete(Integer id) {
-		er.findById(id);
+		empresaRepository.findById(id);
 		try {
-			er.deleteById(id);
+			empresaRepository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não foi possivel deletar a empresa informado");
 		}
 	}
-
-	public List<Empresa> findAll() {
-		return er.findAll();
-	}
-
+		
 }
