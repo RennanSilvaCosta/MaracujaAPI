@@ -9,10 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.usbinternet.apimaracuja.domain.Usuario;
-import com.usbinternet.apimaracuja.domain.enums.PerfilUsuario;
 import com.usbinternet.apimaracuja.repositories.UsuarioRepository;
 import com.usbinternet.apimaracuja.security.UserSS;
-import com.usbinternet.apimaracuja.services.exceptions.AuthorizationException;
 import com.usbinternet.apimaracuja.services.exceptions.DataIntegrityException;
 import com.usbinternet.apimaracuja.services.exceptions.ObjectNotFoundException;
 
@@ -20,46 +18,33 @@ import com.usbinternet.apimaracuja.services.exceptions.ObjectNotFoundException;
 public class UsuarioService {
 
 	@Autowired
-	private UsuarioRepository er;
-	
+	private UsuarioRepository usuarioRepository;
+
 	@Autowired
 	private EmailService emailService;
 
 	public Usuario findById(Integer id) {
-		Optional<Usuario> e = er.findById(id);
+		Optional<Usuario> e = usuarioRepository.findById(id);
 		if (e == null) {
 			throw new ObjectNotFoundException("Objeto não encontrado: " + id + ", Tipo: " + Usuario.class.getName());
 		}
 		return e.orElse(null);
 	}
 
-	public Usuario findByEmail(String email) {
-		UserSS userss = UsuarioService.authenticated();
-		if (userss == null || !userss.hasRole(PerfilUsuario.ADMIN) && !email.equals(userss.getUsername())) {
-			throw new AuthorizationException("Acesso negado");
-		}
-		Usuario user = er.findByEmail(email);
-		if (user == null) {
-			throw new ObjectNotFoundException(
-					"Objeto não encontrado! id: " + userss.getId() + ", Tipo: " + Usuario.class.getName());
-		}
-		return user;
-	}
-
 	public Usuario insert(Usuario user) {
 		emailService.sendRegistrationConfirmationHtmlEmail(user);
-		return er.save(user);
+		return usuarioRepository.save(user);
 	}
 
 	public Usuario update(Usuario e) {
 		findById(e.getId());
-		return er.save(e);
+		return usuarioRepository.save(e);
 	}
 
 	public void delete(Integer id) {
-		er.findById(id);
+		usuarioRepository.findById(id);
 		try {
-			er.deleteById(id);
+			usuarioRepository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não foi possível excluir este usuario");
 		}
@@ -67,7 +52,7 @@ public class UsuarioService {
 	}
 
 	public List<Usuario> findAll() {
-		return er.findAll();
+		return usuarioRepository.findAll();
 	}
 
 	public static UserSS authenticated() {
@@ -76,6 +61,16 @@ public class UsuarioService {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	public boolean thisEmailExist(String email) {
+		Usuario user = usuarioRepository.thisEmailExist(email);
+		if (user != null) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
 }

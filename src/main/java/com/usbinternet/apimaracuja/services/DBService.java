@@ -40,11 +40,9 @@ public class DBService {
 		user2.addPerfil(PerfilUsuario.ADMIN);
 		
 		Endereco e1 = new Endereco(null, "04929-080", "Avenida Professor Mário Mazagão", "Alto da Riviera", empresa1);
-		Endereco e2 = new Endereco(null, "00000-000", "Paulo Simões da Costa", "Alto da Riviera", empresa1);
-		Endereco e3 = new Endereco(null, "00000-000", "Paulo Simões da Costa", "Alto da Riviera", empresa1);
-		Endereco e4 = new Endereco(null, "00000-000", "Paulo Simões da Costa", "Alto da Riviera", empresa1);
-		
-		
+		Endereco e2 = new Endereco(null, "04716-070", "Alameda das Quaresmeiras", "Chácara Santo Antônio (Zona Sul)", empresa1);
+		Endereco e3 = new Endereco(null, "02955-020", "Rua Sousa Sepúlveda", "Vila Mirante", empresa1);
+		Endereco e4 = new Endereco(null, "01248-090", "Rua Modigliani", "Pacaembu", empresa1);
 		Endereco e5 = new Endereco(null, "04929-140", "Paulo Simões da Costa", "Alto da Riviera", empresa2);
 		
 		empresa1.getEnderecos().addAll(Arrays.asList(e1));
