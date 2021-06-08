@@ -1,4 +1,4 @@
-package com.usbinternet.apimaracuja.resources;
+package com.usbinternet.apimaracuja.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;

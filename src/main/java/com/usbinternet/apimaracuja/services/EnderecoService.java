@@ -28,6 +28,10 @@ public class EnderecoService {
 
 	public Endereco insert(Endereco e) {
 		e.setId(null);
+		Endereco end = findByCep(e.getCep(), e.getEmpresa().getId());
+		if(end != null) {
+			throw new DataIntegrityException("O cep informado já existe na base de dados.");
+		} 		
 		return er.save(e);
 	}
 
